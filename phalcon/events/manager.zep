@@ -61,7 +61,7 @@ class Manager implements ManagerInterface
 			if this->_enablePriorities {
 
 				// Create a SplPriorityQueue to store the events with priorities
-				// 创建优化队列： 可以参考这里(http://www.jb51.net/article/65910.htm)
+				// 创建优先队列： 可以参考这里(http://www.jb51.net/article/65910.htm)
 				let priorityQueue = new SplPriorityQueue();
 
 				// Extract only the Data // Set extraction flags
