@@ -23,7 +23,7 @@ use Phalcon\Events\Event;
 use SplPriorityQueue;
 
 /**
- * Phalcon\Events\Manager
+ * Phalcon\Events\Manager(被观察者)
  *
  * Phalcon Events Manager, offers an easy way to intercept and manipulate, if needed,
  * the normal flow of operation. With the EventsManager the developer can create hooks or
@@ -43,19 +43,42 @@ class Manager implements ManagerInterface
 
 	/**
 	 * Attach a listener to the events manager
+	 * 加入监听事件(观察者)
+	 * $profiler = new Profiler();
+	 * $eventsManager = new Manager();
 	 *
-	 * @param string eventType
-	 * @param object|callable handler
+	 * $eventsManager->attach(
+	 *     "db",
+	 *     function (Event $event, $connection) use ($profiler) {
+	 *         if ($event->getType() === "beforeQuery") {
+	 *             $sql = $connection->getSQLStatement();
+	 *
+	 *             // Start a profile with the active connection
+	 *             $profiler->startProfile($sql);
+	 *         }
+	 *
+	 *         if ($event->getType() === "afterQuery") {
+	 *             // Stop the active profile
+	 *             $profiler->stopProfile();
+	 *         }
+	 *     }
+	 * );
+	 *
+	 * @param string eventType  事件名称
+	 * @param object|callable handler 事件对象？？？？
 	 * @param int priority
 	 */
 	public function attach(string! eventType, var handler, int! priority = 100)
 	{
 		var priorityQueue;
 
+		// 必须是一个对象
 		if typeof handler != "object" {
 			throw new Exception("Event handler must be an Object");
 		}
 
+		// 加入到_events中
+		// eventType假如是db的话
 		if !fetch priorityQueue, this->_events[eventType] {
 
 			if this->_enablePriorities {
@@ -370,8 +393,8 @@ class Manager implements ManagerInterface
 	 *
 	 * @param string eventType
 	 * @param object source
-	 * @param mixed  data
-	 * @param boolean cancelable
+	 * @param mixed  data        数据
+	 * @param boolean cancelable 触发事件是否可取消????
 	 * @return mixed
 	 */
 	public function fire(string! eventType, source, data = null, boolean cancelable = true)
