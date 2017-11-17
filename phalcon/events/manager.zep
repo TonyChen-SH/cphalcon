@@ -85,6 +85,7 @@ class Manager implements ManagerInterface
 
 				// Create a SplPriorityQueue to store the events with priorities
 				// 创建优先队列： 可以参考这里(http://www.jb51.net/article/65910.htm)
+				// 可以设置队列元素的优化级别
 				let priorityQueue = new SplPriorityQueue();
 
 				// Extract only the Data // Set extraction flags
@@ -440,7 +441,7 @@ class Manager implements ManagerInterface
 		// Check if there are listeners for the event type itself
 		if fetch fireEvents, events[eventType] {
 
-			if typeof fireEvents == "object" || typeof fireEvents == "array" {
+			if typeof fireEvents == "object" | | typeof fireEvents == "array" {
 
 				// Create the event if it wasn't created before
 				if event === null {

@@ -260,9 +260,11 @@ class Loader implements EventsAwareInterface
 	{
 		var filePath;
 
+        // 循环加载文件
 		for filePath in this->_files {
 			if typeof this->_eventsManager == "object" {
 				let this->_checkedPath = filePath;
+				    // 触发事件接口
 					this->_eventsManager->fire("loader:beforeCheckPath", this, filePath);
 			}
 
